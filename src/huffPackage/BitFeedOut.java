@@ -1,3 +1,4 @@
+package huffPackage;
 /**
  *  
  * Interface that receives a continuos stream of bits (0 or 1)

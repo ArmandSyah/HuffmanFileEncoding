@@ -1,3 +1,4 @@
+package huffPackage;
 import java.util.Arrays;
 import java.util.Iterator;
 

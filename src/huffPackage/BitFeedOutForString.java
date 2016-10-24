@@ -1,3 +1,4 @@
+package huffPackage;
 /**
  *  
  * This implementation of BitFeedOut uses a StringBuilder to store bits

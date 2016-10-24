@@ -1,3 +1,4 @@
+package huffPackage;
 /**
  * 
  * Main program for the purpose of testing Huffman with several string texts;
@@ -17,10 +18,13 @@
 public class TestHuffmanWithStrings {
 	
 	public static void main(String[] args) { 
-		
+		long startTime = System.currentTimeMillis();
+		int index = 0;
 		FileManipulation rf = new FileManipulation();
-		String  codedText, decodedText;
+		String  codedText, decodedText, codedInBits;
 		LetterFrequencies fq;
+		
+		//Textfiles of free E-Books from https://www.gutenberg.org/ in plaintext
 		String [] textFiles = {
 				"Test1.txt",
 				"Test2.txt",
@@ -29,14 +33,23 @@ public class TestHuffmanWithStrings {
 				"Test5.txt"
 		};
 		
-		int index = 0;
 		
+		//Representation of compressed Textfiles to be made
 		String [] compressedFiles = {
 				"Test1_Compressed.txt",
 				"Test2_Compressed.txt",
 				"Test3_Compressed.txt",
 				"Test4_Compressed.txt",
 				"Test5_Compressed.txt"
+		};
+		
+		//Representation of decompressed Textfiles to be made
+		String[] decompressedFiles = {
+				"Test1_Decompressed.txt",
+				"Test2_Decompressed.txt",
+				"Test3_Decompressed.txt",
+				"Test4_Decompressed.txt",
+				"Test5_Decompressed.txt"
 		};
 		
 		String [] textsToTest = new String[textFiles.length];
@@ -46,24 +59,15 @@ public class TestHuffmanWithStrings {
 			textsToTest[i] = s;
 		}
 		
-		/*String [] textsToTest = { // add more strings to create more test cases
-				"AACGTAAATAATGAAC",
-				"Hey,this is my second test!",
-				"I AM SAM, SAM I AM. THAT SAM I AM,THAT SAM I AM, I DO NOT LIKE THAT SAM I AM",
-				"Death is like the wind, always by my side.",
-				"I'm so glad I finished this",
-				"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa",
-				"Now I have to study for Linear Algebra and Intro to Soc, I have midterms for both on the same day",
-				"This is the last test to perform, to try to make sure it's working properly"
-		};*/
-		
 		for (String plainText: textsToTest) {
 			System.out.println(">>>> Begining Encoding:\n"); 
 			codedText= testStringEncode(plainText); // encodes plainText into codedText
 			rf.WriteToBits(codedText, compressedFiles[index]);
-			System.out.println("\n>>>> Begining Decoding:\n"); 
+			System.out.println("\n>>>> Begining Decoding:\n");
+			codedInBits = rf.ReadBit(compressedFiles[index]);
 			fq=new LetterFrequencies(plainText);
-			decodedText=testStringDecode(codedText,fq); // decoded codedText into decodedText
+			decodedText=testStringDecode(codedInBits,fq); // decoded codedText into decodedText
+			rf.Write(decodedText, decompressedFiles[index]);
 			if (plainText.equals(decodedText)) // plainText must match decodedText
 				System.out.println("RESULT: Correctly encoding-decoding!\n");
 				
@@ -73,6 +77,10 @@ public class TestHuffmanWithStrings {
 			index++;
 		
 		}
+		
+		long endTime   = System.currentTimeMillis();
+		long totalTime = (endTime - startTime) / 1000;
+		System.out.println(totalTime + " Seconds");
 		
 	}
 	

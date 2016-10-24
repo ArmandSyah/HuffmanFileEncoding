@@ -1,3 +1,4 @@
+package huffPackage;
 /**
  * Array Heap implementation of a priority queue
  * @author Lachlan Plant

@@ -1,3 +1,4 @@
+package huffPackage;
 
 /**
  * LetterFrequencies class is handy to store letters and their frequencies, 

@@ -1,3 +1,4 @@
+package huffPackage;
 
 
 import java.io.*;
@@ -17,6 +18,8 @@ public class FileManipulation {
 	 * and converting that into a string
 	 * @param fileName
 	 * @return StringBuilder sb with textfile info on it, which is then converted into a String
+	 * @throws FileNotFoundException
+	 * @throws IOException
 	 */
 	public String Read(String fileName){
 		String textIn;
@@ -35,15 +38,50 @@ public class FileManipulation {
 			bufferedReader.close();
 			return sb.toString();
 			
-		}catch(FileNotFoundException ex) {
+		}
+		catch(FileNotFoundException ex) {
             System.out.println(
               "Unable to open file '" + 
                     fileName + "'");                
-        }catch(IOException ex) {
+        }
+		catch(IOException ex) {
             System.out.println(
                "Error reading file '" 
                  + fileName + "'");                  
         }
+		return "0";
+	}
+	
+	/**
+	 * Reads from a compressed file, converts the bits into one string and then returned for decoding.
+	 * @param file
+	 * @return
+	 */
+	public String ReadBit(String file){
+		int bit;
+		String textIn;
+		StringBuilder sb = new StringBuilder();
+		
+		try{
+			BufferedBitReader bbr = new BufferedBitReader(file);
+			 bit = bbr.readBit();
+			 textIn = Integer.toString(bit);
+			 
+			 while (bit != -1){
+				sb.append(textIn);
+				bit = bbr.readBit();
+				textIn = Integer.toString(bit);
+			 }
+			 
+			 
+			 return sb.toString();
+		}
+		catch(FileNotFoundException ex){
+			ex.printStackTrace();
+		}
+		catch(IOException ex){
+			ex.printStackTrace();
+		}
 		return "0";
 	}
 	
